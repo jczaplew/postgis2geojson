@@ -97,8 +97,8 @@ def getData():
 	# Execute the query
 	try:
 		cur.execute(query)
-	except:
-		print "Unable to execute query. Please check your options and try again."
+	except Exception as exc:
+		print "Unable to execute query. Error was {0}".format(str(exc))
 		return
 
 	# Retrieve the results of the query
