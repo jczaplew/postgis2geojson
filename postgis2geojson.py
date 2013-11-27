@@ -12,9 +12,12 @@ TODO:
 
 '''
 import argparse
-import psycopg2
+import datetime
 import json
 import subprocess
+
+import psycopg2
+
 
 parser = argparse.ArgumentParser(
     description="Create a GeoJSON from a PostGIS query.",
@@ -102,7 +105,7 @@ def getData():
         return
 
     # Retrieve the results of the query
-    rows = cur.fetchall();
+    rows = cur.fetchall()
 
     # Get the column names returned
     colnames = [desc[0] for desc in cur.description]
@@ -110,44 +113,31 @@ def getData():
     # Find the index of the column that holds the geometry
     geomIndex = colnames.index("geometry")
 
-    # output is the main content, rowOutput is the content from each record returned
-    output = ""
-    rowOutput = ""
-    i = 0
+    feature_collection = {'type': 'FeatureCollection', 'features': []}
 
     # For each row returned...
-    while i < len(rows):
-        # Make sure the geometry exists
-        if rows[i][geomIndex] is not None:
-            # If it's the first record, don't add a comma
-            comma = "," if i > 0 else ""
-            rowOutput =  comma + '{"type": "Feature", "geometry": ' + rows[i][geomIndex] + ', "properties": {'
-            properties = ""
-            
-            j = 0
-            # For each field returned, assemble the properties object
-            while j < len(colnames):
-                if colnames[j] != 'geometry':
-                    comma = "," if j > 0 else ""
-                    properties +=  comma + '"' + colnames[j] + '":"' + str(rows[i][j]) + '"'
+    for row in rows:
+        feature = {
+            'type': 'Feature',
+            'geometry': json.loads(row[geomIndex]),
+            'properties': {},
+        }
 
-                j += 1
+        for index, colname in enumerate(colnames):
+            if colname not in ('geometry', arguments.geometry):
+                if isinstance(row[index], datetime.datetime):
+                    # datetimes are not JSON.dumpable, manually stringify these.I
+                    value = str(row[index])
+                else:
+                    value = row[index]
+                feature['properties'][colname] = value
 
-            rowOutput += properties + '}'
-            rowOutput += '}'
-
-            output += rowOutput
-
-        # start over
-        rowOutput = ""
-        i += 1
-
-    # Assemble the GeoJSON
-    totalOutput = '{ "type": "FeatureCollection", "features": [ ' + output + ' ]}'
+        feature_collection['features'].append(feature)
 
     # Write it to a file
+    jsonified = json.dumps(feature_collection)
     with open(arguments.file + '.geojson', 'w') as outfile:
-        outfile.write(totalOutput)
+        outfile.write(jsonified)
 
     # If a TopoJSON conversion is requested...
     if arguments.topojson is True:
