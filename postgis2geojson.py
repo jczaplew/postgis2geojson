@@ -3,7 +3,7 @@ A simple tool for exporting from a PostGIS table to GeoJSON and TopoJSON. Assume
 psycopg2, and TopoJSON are already installed and in your PATH.
 
 Adapted from Bryan McBride's PHP implementation 
-(https://gist.github.com/bmcbride/1913855/raw/c1ebb042f9f13c2023af1b980bb5c9c6c8dffc3f/postgis_geojson.php) 
+(https://gist.github.com/bmcbride/1913855/) 
 by John Czaplewski | jczaplew@gmail.com | @JJCzaplewski
 
 TODO:
