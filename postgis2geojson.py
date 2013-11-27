@@ -64,6 +64,10 @@ parser.add_argument("--topojson", dest="topojson",
     action="store_true",
     help="Use if you would also like a copy of the data as TopoJSON")
 
+parser.add_argument("--pretty", dest="pretty",
+    action="store_true",
+    help="Pretty print the output (indent).")
+
 arguments = parser.parse_args()
 
 def getData():
@@ -134,8 +138,10 @@ def getData():
 
         feature_collection['features'].append(feature)
 
+    indent = 2 if arguments.pretty else None
+    jsonified = json.dumps(feature_collection, indent=indent)
+
     # Write it to a file
-    jsonified = json.dumps(feature_collection)
     with open(arguments.file + '.geojson', 'w') as outfile:
         outfile.write(jsonified)
 
