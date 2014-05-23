@@ -1,16 +1,3 @@
-'''
-A simple tool for exporting from a PostGIS table to GeoJSON and TopoJSON. Assumes Python 2.7+, 
-psycopg2, and TopoJSON are already installed and in your PATH.
-
-Adapted from Bryan McBride's PHP implementation 
-(https://gist.github.com/bmcbride/1913855/) 
-by John Czaplewski | jczaplew@gmail.com | @JJCzaplewski
-
-TODO:
-- Add argument for SRS
-- Clean up
-
-'''
 import argparse
 import datetime
 import json
@@ -130,7 +117,7 @@ def getData():
         for index, colname in enumerate(colnames):
             if colname not in ('geometry', arguments.geometry):
                 if isinstance(row[index], datetime.datetime):
-                    # datetimes are not JSON.dumpable, manually stringify these.I
+                    # datetimes are not JSON.dumpable, manually stringify these.
                     value = str(row[index])
                 else:
                     value = row[index]
