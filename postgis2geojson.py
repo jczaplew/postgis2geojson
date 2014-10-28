@@ -24,7 +24,11 @@ parser.add_argument("-u", "--user", dest="user",
     help="Database user. Defaults to 'postgres'")
 
 parser.add_argument("-p", "--password", dest="password",
-    type=str, required=True,
+    default="", type=str,
+    help="Password for the database user")
+
+parser.add_argument("-P", "--port", dest="port",
+    default="5432", type=str,
     help="Password for the database user")
 
 parser.add_argument("-t", "--table", dest="table",
@@ -60,7 +64,7 @@ arguments = parser.parse_args()
 def getData():
     # Connect to the database
     try:
-        conn = psycopg2.connect("dbname=" + arguments.database + " user=" + arguments.user + " host=" + arguments.host + " password="+ arguments.password)
+        conn = psycopg2.connect("dbname=" + arguments.database + " user=" + arguments.user + " host=" + arguments.host + " port=" + arguments.port + " password="+ arguments.password)
     except:
         print "Unable to connect to the database. Please check your options and try again."
         return
