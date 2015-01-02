@@ -62,9 +62,9 @@ parser.add_argument("--pretty", dest="pretty",
 
 arguments = parser.parse_args()
 
-# Fix to stringify decimals
+# Fix to float decimals
 # http://stackoverflow.com/questions/16957275/python-to-json-serialization-fails-on-decimal
-def decimal_default(obj):
+def check_for_decimals(obj):
     if isinstance(obj, decimal.Decimal):
         return float(obj)
     raise TypeError
@@ -138,7 +138,7 @@ def getData():
         feature_collection['features'].append(feature)
 
     indent = 2 if arguments.pretty else None
-    jsonified = json.dumps(feature_collection, indent=indent, default=decimal_default)
+    jsonified = json.dumps(feature_collection, indent=indent, default=check_for_decimals)
 
     # Write it to a file
     with open(arguments.file + '.geojson', 'w') as outfile:
