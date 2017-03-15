@@ -22,20 +22,21 @@ python postgis2geojson.py -d gisdata -t boundaries -u user -p password -g the_ge
 ````
 
 ####Arguments:
-| Name        | Argument    | Default value |  Required  | Description  |
-|---------------|:---------------:|:------------------:|:----------------:|------------------|
-| Help         | ````-h````       |                       |                    | Show friendly help message |
-| Database | ````-d````       |                       |         Y         | Database to use |
-| Host         | ````-H````      | localhost        |                    | Host to connect to |
-| User         | ````-U````      | postgres        |                    | Postgres user to use |
-| Password | ````-p````       |                       |                    | Password for Postgres user |
-| Port          | ````-P````       | 5432             |                     | Database port |
-| Table        | ````-t ````       |                       |      Y             | Table to query |
-| Fields       | ````-f ````       | *                     |                    | Database fields to return, separated by a single space |
-| Geometry | ````-g````       | geom             |                    | Name of geometry column |
-| Where      | ````-w````      |                       |                    | Optional WHERE clause to add to the SQL query |
-| File          | ````-o````       | data.geojson  |                    | Name of output file |
-| Topojson  | ````--topojson````       |           |                    | Creates a TopoJSON file in addtion to a GeoJSON |
-| Pretty print | ````--pretty````       |                       |                    | Pretty print the output |
+
+| Name         | Argument           | Default value |  Required  | Description  |
+|--------------|:------------------:|:-------------:|:----------:|------------------|
+| Help         | ````-h````         |               |            | Show friendly help message |
+| Database     | ````-d````         |               |      Y     | Database to use |
+| Host         | ````-H````         | localhost     |            | Host to connect to |
+| User         | ````-U````         | postgres      |            | Postgres user to use |
+| Password     | ````-p````         |               |            | Password for Postgres user |
+| Port         | ````-P````         | 5432          |            | Database port |
+| Table        | ````-t ````        |               |      Y     | Table to query |
+| Fields       | ````-f ````        | *             |            | Database fields to return, separated by a single space |
+| Geometry     | ````-g````         | geom          |            | Name of geometry column |
+| Where        | ````-w````         |               |            | Optional WHERE clause to add to the SQL query |
+| File         | ````-o````         | data.geojson  |            | Name of output file |
+| Topojson     | ````--topojson```` |               |            | Creates a TopoJSON file in addtion to a GeoJSON |
+| Pretty print | ````--pretty````   |               |            | Pretty print the output |
 
 A full list of options is also available via ````python postgis2geojson.py --help````.
